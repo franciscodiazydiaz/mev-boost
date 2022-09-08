@@ -9,11 +9,19 @@ permissions:
   contents: write
 
 jobs:
-  goreleaser:
-    runs-on: ubuntu-latest
-    env:
-      CGO_CFLAGS_ALLOW: "-O -D__BLST_PORTABLE__"
-      CGO_CFLAGS: "-O -D__BLST_PORTABLE__"
+  build:
+    name: Build for ${{ matrix.goos }}_${{ matrix.goarch }}
+    runs-on: ${{ matrix.runson }}
+    strategy:
+      matrix:
+        include:
+          - {goos: "linux", goarch: "amd64", runson: "ubuntu-latest"}
+          - {goos: "linux", goarch: "arm64", runson: "ubuntu-latest"}
+          - {goos: "windows", goarch: "386", runson: "ubuntu-latest"}
+          - {goos: "windows", goarch: "amd64", runson: "ubuntu-latest"}
+          - {goos: "darwin", goarch: "amd64", runson: "macos-latest"}
+          - {goos: "darwin", goarch: "arm64", runson: "macos-latest"}
+      fail-fast: false
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -25,11 +33,40 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.18
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
-        with:
-          distribution: goreleaser
-          version: latest
-          args: release --rm-dist
+      - name: Build
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED=1
+          CGO_CFLAGS_ALLOW="-D__BLST_PORTABLE__"
+          CGO_CFLAGS="-D__BLST_PORTABLE__"
+        run: |
+          set -x
+          VERSION=$(git describe --tags --always --dirty="-dev")
+          GO_LDFLAGS="-X github.com/flashbots/mev-boost/config.Version=${Version}"
+          go build -ldflags "${GO_LDFLAGS}" -o dist/ .
+
+#  goreleaser:
+#    runs-on: ubuntu-latest
+#    env:
+#      CGO_CFLAGS_ALLOW: "-O -D__BLST_PORTABLE__"
+#      CGO_CFLAGS: "-O -D__BLST_PORTABLE__"
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#        with:
+#          fetch-depth: 0
+#      - name: Fetch all tags
+#        run: git fetch --force --tags
+#      - name: Set up Go
+#        uses: actions/setup-go@v2
+#        with:
+#          go-version: 1.18
+#      - name: Run GoReleaser
+#        uses: goreleaser/goreleaser-action@v2
+#        with:
+#          distribution: goreleaser
+#          version: latest
+#          args: release --rm-dist --debug
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
