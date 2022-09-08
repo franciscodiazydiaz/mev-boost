@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'gorelease-*'
+      - 'v-*'
 
 permissions:
   contents: write
