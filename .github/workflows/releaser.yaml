@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mev-boost-linux_windows
-          path: dist/mev-boost*
+          path: dist/mev-boost*.tar.gz
   build-darwin:
     runs-on: macos-latest
     steps:
@@ -62,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mev-boost-darwin
-          path: dist/mev-boost*
+          path: dist/mev-boost*.tar.gz
   release:
     needs: [build-linux-windows, build-darwin]
     runs-on: ubuntu-latest
