@@ -46,9 +46,11 @@ jobs:
           CGO_ENABLED: 1
           CGO_CFLAGS_ALLOW: -D__BLST_PORTABLE__
           CGO_CFLAGS: -D__BLST_PORTABLE__
-          CC: aarch64-linux-gnu-gcc
         run: |
           set -x
+          if [[ "${GOOS}" == "linux"]] && [[ "${GOARCH}" == "arm64" ]]; then
+            CC=aarch64-linux-gnu-gcc
+          fi
           VERSION=$(git describe --tags --always --dirty="-dev")
           GO_LDFLAGS="-X github.com/flashbots/mev-boost/config.Version=${Version}"
           go build -ldflags "${GO_LDFLAGS}" -o dist/ .
