@@ -79,21 +79,21 @@ jobs:
           go-version: 1.18
       - name: Make directories
         run: |
-          mkdir -p ./build/linux_windows
-          mkdir -p ./build/darwin
+          mkdir -p ./dist/linux_windows
+          mkdir -p ./dist/darwin
       - name: Download Linux and Windows binaries
         uses: actions/download-artifact@v3
         with:
           name: mev-boost-linux_windows
-          path: ./build/linux_windows
+          path: ./dist/linux_windows
       - name: Download Darwin binaries
         uses: actions/download-artifact@v3
         with:
           name: mev-boost-darwin
-          path: ./build/darwin
+          path: ./dist/darwin
       - name: Merge checksum file
         run: |
-          cd ./build
+          cd ./dist
           cat ./darwin/mev-boost*checksums.txt >> checksums.txt
           cat ./linux_windows/mev-boost*checksums.txt >> checksums.txt
           rm ./darwin/mev-boost*checksums.txt
