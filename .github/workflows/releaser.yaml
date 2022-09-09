@@ -64,7 +64,7 @@ jobs:
           name: mev-boost-darwin
           path: dist/mev-boost*
   release:
-    needs: [build-linux_windows, build-darwin]
+    needs: [build-linux-windows, build-darwin]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
