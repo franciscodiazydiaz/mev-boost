@@ -36,7 +36,7 @@ jobs:
       - name: Install cross-compiler for linux/arm64
         env:
           RUNSON: ${{ matrix.runson }}
-      - run: |
+        run: |
           [[ "$RUNSON" == "ubuntu-latest" ]] && sudo apt-get -y install binutils-aarch64-linux-gnu
       - name: Build
         env:
