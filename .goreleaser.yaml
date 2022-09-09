@@ -34,6 +34,7 @@ builds:
           - CC=aarch64-linux-gnu-gcc
       - goos: windows
         goarch: amd64
+        goamd64: v1
         env:
           - CGO_ENABLED=1
           - CGO_CFLAGS_ALLOW="-D__BLST_PORTABLE__"
