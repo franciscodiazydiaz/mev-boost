@@ -38,6 +38,7 @@ jobs:
           RUNSON: ${{ matrix.runson }}
         run: |
           [[ "$RUNSON" == "ubuntu-latest" ]] && sudo apt-get -y install binutils-aarch64-linux-gnu
+          ls /usr/bin/*gcc*
       - name: Build
         env:
           GOOS: ${{ matrix.goos }}
@@ -45,7 +46,7 @@ jobs:
           CGO_ENABLED: 1
           CGO_CFLAGS_ALLOW: -D__BLST_PORTABLE__
           CGO_CFLAGS: -D__BLST_PORTABLE__
-          CC: aarch64-linux-gnu-gcc
+          CC: aarch64-linux-gnu-gcc-7
         run: |
           set -x
           VERSION=$(git describe --tags --always --dirty="-dev")
