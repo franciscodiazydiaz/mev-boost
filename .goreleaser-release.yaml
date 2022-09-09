@@ -1,0 +1,5 @@
+builds:
+  - skip: true
+  extra_files:
+    - glob: ./mev-boost/**/*
+    - glob: ./mev-boost/checksums.txt
