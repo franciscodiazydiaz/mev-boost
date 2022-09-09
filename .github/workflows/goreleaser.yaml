@@ -37,7 +37,7 @@ jobs:
         env:
           RUNSON: ${{ matrix.runson }}
         run: |
-          [[ "$RUNSON" == "ubuntu-latest" ]] && sudo apt-get -y install binutils-aarch64-linux-gnu
+          [[ "$RUNSON" == "ubuntu-latest" ]] && sudo apt-get -y install gcc-aarch64-linux-gnu
           ls /usr/bin/*gcc*
       - name: Build
         env:
@@ -46,7 +46,7 @@ jobs:
           CGO_ENABLED: 1
           CGO_CFLAGS_ALLOW: -D__BLST_PORTABLE__
           CGO_CFLAGS: -D__BLST_PORTABLE__
-          CC: aarch64-linux-gnu-gcc-7
+          CC: aarch64-linux-gnu-gcc
         run: |
           set -x
           VERSION=$(git describe --tags --always --dirty="-dev")
