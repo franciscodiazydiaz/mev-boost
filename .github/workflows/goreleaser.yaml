@@ -48,7 +48,7 @@ jobs:
           CGO_CFLAGS: -D__BLST_PORTABLE__
         run: |
           set -x
-          if [[ "${GOOS}" == "linux"]] && [[ "${GOARCH}" == "arm64" ]]; then
+          if [[ "${GOOS}" == "linux" ]] && [[ "${GOARCH}" == "arm64" ]]; then
             CC=aarch64-linux-gnu-gcc
           fi
           VERSION=$(git describe --tags --always --dirty="-dev")
