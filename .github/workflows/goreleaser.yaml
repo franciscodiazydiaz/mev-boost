@@ -49,7 +49,7 @@ jobs:
         run: |
           set -x
           if [[ "${GOOS}" == "linux" ]] && [[ "${GOARCH}" == "arm64" ]]; then
-            CC=aarch64-linux-gnu-gcc
+            export CC=aarch64-linux-gnu-gcc
           fi
           VERSION=$(git describe --tags --always --dirty="-dev")
           GO_LDFLAGS="-X github.com/flashbots/mev-boost/config.Version=${Version}"
